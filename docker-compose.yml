@@ -1,0 +1,18 @@
+services:
+  userbot:
+    build: .
+    container_name: telegram-userbot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      # Persist session files, database, and logs across restarts
+      - ./sessions:/app/sessions
+      - ./data:/app/data
+      - ./logs:/app/logs
+    # For initial phone authentication, run interactively:
+    #   docker compose run --rm userbot
+    # After first login, the session file is saved and subsequent
+    # starts won't require interaction.
+    stdin_open: true
+    tty: true
